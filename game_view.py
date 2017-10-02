@@ -1,5 +1,7 @@
 from tkinter import *
+from entities import Hero
 root = Tk()
+
 
 canvas = Canvas(root, width='720', height='720')
 
@@ -33,6 +35,10 @@ def draw_map():
             x += 72
         y += 72
 
+
+
+myhero = Hero(canvas)
 draw_map()
+myhero.draw(0, 0)
 canvas.pack()
 root.mainloop()
