@@ -34,20 +34,21 @@ class Game():
     def on_key_press(self, e):
         self.canvas.itemconfig(self.myhero.image_ID, image=self.hero_images[e.keysym])
         if ( e.keysym == 'Up' ):
-             if self.wall_checker(self.myhero.x, self.myhero.y-1) == False:
+             if self.myhero.x >= 0 and self.no_go_checker(self.myhero.x, self.myhero.y-1) == False:
                 self.myhero.move(0,-1, "Up")
         elif( e.keysym == 'Down'):
-             if self.wall_checker(self.myhero.x, self.myhero.y+1) == False:
+             if self.myhero.x <= 9 and self.no_go_checker(self.myhero.x, self.myhero.y+1) == False:
                 self.myhero.move(0,1, "Down")
         elif( e.keysym == 'Right' ):
-            if self.wall_checker(self.myhero.x+1, self.myhero.y) == False:
+            if self.myhero.x <= 8 and self.no_go_checker(self.myhero.x+1, self.myhero.y) == False:
                 self.myhero.move(1,0, "Right")
         elif( e.keysym == 'Left' ):
-             if self.wall_checker(self.myhero.x-1, self.myhero.y) == False:
+             if self.myhero.x >= 1 and self.no_go_checker(self.myhero.x-1, self.myhero.y) == False:
                 self.myhero.move(-1,0, "Left")
-
-    def wall_checker(self, x, y):
-       
+  
+    #     else:
+    #         return True
+    def no_go_checker(self, x, y):
         return self.map_blueprint[y][x] == 1
 
     def draw(self, x, y):
