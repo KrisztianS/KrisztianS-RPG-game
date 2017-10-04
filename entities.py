@@ -10,16 +10,13 @@ class Entity():
         self.sp = 20
         self.dp = 20
         self.image = ""
-        
-    def draw(self, x, y):
-        self.x = x
-        self.y = y
-        self.asset = PhotoImage(file = self.image)
-        self.image_ID = self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.asset)
+        self.image_ID = None
 
-    def move(self, dx, dy):
+    def move(self, dx, dy, direction):
         self.canvas.move(self.image_ID, dx*72, dy*72)
-    
+        self.x += dx
+        self.y += dy
+        
 class Hero(Entity):
     
     def __init__(self, canvas):
