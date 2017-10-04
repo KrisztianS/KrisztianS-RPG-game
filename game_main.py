@@ -1,15 +1,13 @@
 from tkinter import *
-from entities import Hero
+from entities import Hero, Entity
 root = Tk()
 
-class Map():
+class Game():
 
     def __init__(self):
         self.canvas = Canvas(root, width='720', height='720')
-
         self.floor_tile = PhotoImage(file = "floor_tile.png")
         self.wall_tile = PhotoImage(file = "wall_tile.png")
-
         self.map_blueprint = [
                     [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
                     [0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
@@ -21,8 +19,25 @@ class Map():
                     [0, 0, 0, 0, 0, 1, 1, 0, 1, 0],
                     [0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
                     [0, 0, 0, 1, 0, 1, 1, 0, 1, 0]
-                                                ]
-                
+                                                 ]
+        self.draw_map()
+        self.myhero = Hero(self.canvas)
+        self.myhero.draw(0, 0)
+        self.canvas.pack()
+
+        root.bind("<KeyPress>", self.on_key_press)
+        root.mainloop()
+
+    def on_key_press(self, e):
+        if ( e.keysym == 'Up' ):
+            self.myhero.move(0,-1)
+        elif( e.keysym == 'Down' ):
+            self.myhero.move(0,1)
+        elif( e.keysym == 'Right' ):
+            self.myhero.move(1,0)
+        elif( e.keysym == 'Left' ):
+            self.myhero.move(-1,0)
+
     def draw_map(self):
         self.x = 0
         self.y = 0
@@ -37,10 +52,4 @@ class Map():
                 self.x += 72
             self.y += 72
 
-
-mymap = Map()
-myhero = Hero(canvas)
-mymap.draw_map()
-myhero.draw(0, 0)
-canvas.pack()
-root.mainloop()
+mymap = Game()

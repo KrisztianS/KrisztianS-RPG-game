@@ -17,6 +17,9 @@ class Entity():
         self.asset = PhotoImage(file = self.image)
         self.image_ID = self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.asset)
 
+    def move(self, dx, dy):
+        self.canvas.move(self.image_ID, dx*72, dy*72)
+    
 class Hero(Entity):
     
     def __init__(self, canvas):
