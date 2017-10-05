@@ -1,3 +1,4 @@
+from random import randint
 from tkinter import *
 from entities import Hero, Entity, Skeleton
 root = Tk()
@@ -28,7 +29,9 @@ class Game():
         self.myhero = Hero(self.canvas)
         self.skeleton1 = Skeleton(self.canvas)
         self.draw_hero(0, 0)
-        self.draw_skeleton(7,8)
+        self.draw_skeleton(self.x, self.y)
+        self.draw_skeleton(self.x, self.y)
+        self.draw_skeleton(self.x, self.y)
         self.canvas.pack()
 
         root.bind("<KeyPress>", self.on_key_press)
@@ -59,11 +62,12 @@ class Game():
         self.y = y
         self.myhero.image_ID = self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.hero_images["Down"])
 
-    def draw_skeleton(self, x, y):
-        self.x = x
-        self.y = y
-        self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.skeleton_image)
-
+    def draw_skeleton(self, rand_x, rand_y):
+        self.x = randint(1, 9)
+        self.y = randint(1, 9)
+        if self.no_go_checker(self.x, self.y) == 0:
+            self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.skeleton_image)
+        else: self.draw_skeleton(self.x, self.y)
     def draw_map(self):
         self.x = 0
         self.y = 0
