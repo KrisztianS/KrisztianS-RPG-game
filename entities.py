@@ -21,4 +21,9 @@ class Hero(Entity):
     
     def __init__(self, canvas):
         super().__init__(canvas)
-        self.image = "hero.png"
+
+class Skeleton(Entity):
+
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        

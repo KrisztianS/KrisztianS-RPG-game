@@ -1,17 +1,18 @@
 from tkinter import *
-from entities import Hero, Entity
+from entities import Hero, Entity, Skeleton
 root = Tk()
 
 class Game():
 
     def __init__(self):
         self.canvas = Canvas(root, width='720', height='720')
-        self.floor_tile = PhotoImage(file = "floor_tile.png")
-        self.wall_tile = PhotoImage(file = "wall_tile.png")
-        self.hero_images = {"Up": PhotoImage(file="hero-up.png"),
-                            "Down": PhotoImage(file = "hero-down.png"),
-                            "Left": PhotoImage(file = "hero-left.png"),
-                            "Right": PhotoImage(file = "hero-right.png")}
+        self.floor_tile = PhotoImage(file= "floor_tile.png")
+        self.wall_tile = PhotoImage(file= "wall_tile.png")
+        self.hero_images = {"Up": PhotoImage(file= "hero-up.png"),
+                            "Down": PhotoImage(file="hero-down.png"),
+                            "Left": PhotoImage(file="hero-left.png"),
+                            "Right": PhotoImage(file= "hero-right.png")}
+        self.skeleton_image = PhotoImage(file= "skeleton.png")
         self.map_blueprint = [[0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
                               [0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
                               [0, 1, 1, 1, 0, 1, 0, 1, 1, 0],
@@ -25,7 +26,9 @@ class Game():
                                                  
         self.draw_map()
         self.myhero = Hero(self.canvas)
-        self.draw(0, 0)
+        self.skeleton1 = Skeleton(self.canvas)
+        self.draw_hero(0, 0)
+        self.draw_skeleton(7,8)
         self.canvas.pack()
 
         root.bind("<KeyPress>", self.on_key_press)
@@ -34,10 +37,10 @@ class Game():
     def on_key_press(self, e):
         self.canvas.itemconfig(self.myhero.image_ID, image=self.hero_images[e.keysym])
         if ( e.keysym == 'Up' ):
-             if self.myhero.x >= 0 and self.no_go_checker(self.myhero.x, self.myhero.y-1) == False:
+             if self.myhero.y >= 1 and self.no_go_checker(self.myhero.x, self.myhero.y-1) == False:
                 self.myhero.move(0,-1, "Up")
         elif( e.keysym == 'Down'):
-             if self.myhero.x <= 9 and self.no_go_checker(self.myhero.x, self.myhero.y+1) == False:
+             if self.myhero.y <= 8 and self.no_go_checker(self.myhero.x, self.myhero.y+1) == False:
                 self.myhero.move(0,1, "Down")
         elif( e.keysym == 'Right' ):
             if self.myhero.x <= 8 and self.no_go_checker(self.myhero.x+1, self.myhero.y) == False:
@@ -51,10 +54,15 @@ class Game():
     def no_go_checker(self, x, y):
         return self.map_blueprint[y][x] == 1
 
-    def draw(self, x, y):
+    def draw_hero(self, x, y):
         self.x = x
         self.y = y
         self.myhero.image_ID = self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.hero_images["Down"])
+
+    def draw_skeleton(self, x, y):
+        self.x = x
+        self.y = y
+        self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.skeleton_image)
 
     def draw_map(self):
         self.x = 0
