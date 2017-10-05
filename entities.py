@@ -26,4 +26,8 @@ class Skeleton(Entity):
 
     def __init__(self, canvas):
         super().__init__(canvas)
-        
+
+class Boss(Entity):
+    
+    def __init__(self, canvas):
+        super().__init__(canvas)

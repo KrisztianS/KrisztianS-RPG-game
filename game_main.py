@@ -1,6 +1,6 @@
 from random import randint
 from tkinter import *
-from entities import Hero, Entity, Skeleton
+from entities import Hero, Entity, Skeleton, Boss
 root = Tk()
 
 class Game():
@@ -14,6 +14,7 @@ class Game():
                             "Left": PhotoImage(file="hero-left.png"),
                             "Right": PhotoImage(file= "hero-right.png")}
         self.skeleton_image = PhotoImage(file= "skeleton.png")
+        self.boss_image = PhotoImage(file= "boss.png")
         self.skeleton_coords = []
         self.map_blueprint = [[0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
                               [0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
@@ -29,10 +30,12 @@ class Game():
         self.draw_map()
         self.myhero = Hero(self.canvas)
         self.skeleton1 = Skeleton(self.canvas)
+        self.boss = Boss(self.canvas)
         self.draw_hero(0, 0)
         self.draw_skeleton(self.x, self.y)
         self.draw_skeleton(self.x, self.y)
         self.draw_skeleton(self.x, self.y)
+        self.draw_boss(self.x, self.y)
         self.canvas.pack()
 
         root.bind("<KeyPress>", self.on_key_press)
@@ -70,7 +73,14 @@ class Game():
             self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.skeleton_image)
             self.skeleton_coords.append([self.x, self.y])        
         else: self.draw_skeleton(self.x, self.y)
-        
+    
+    def draw_boss(self, rand_x, rand_y):
+        self.x = randint(4, 9)
+        self.y = randint(4, 9)
+        if self.no_go_checker(self.x, self.y) == 0 and [self.x , self.y] not in self.skeleton_coords:
+            self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.boss_image)
+        else: self.draw_boss(self.x, self.y)
+
     def draw_map(self):
         self.x = 0
         self.y = 0
