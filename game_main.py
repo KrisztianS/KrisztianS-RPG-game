@@ -14,6 +14,7 @@ class Game():
                             "Left": PhotoImage(file="hero-left.png"),
                             "Right": PhotoImage(file= "hero-right.png")}
         self.skeleton_image = PhotoImage(file= "skeleton.png")
+        self.skeleton_coords = []
         self.map_blueprint = [[0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
                               [0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
                               [0, 1, 1, 1, 0, 1, 0, 1, 1, 0],
@@ -65,9 +66,11 @@ class Game():
     def draw_skeleton(self, rand_x, rand_y):
         self.x = randint(1, 9)
         self.y = randint(1, 9)
-        if self.no_go_checker(self.x, self.y) == 0:
+        if self.no_go_checker(self.x, self.y) == 0 and [self.x , self.y] not in self.skeleton_coords:
             self.canvas.create_image(self.x * 72, self.y * 72, anchor=NW, image=self.skeleton_image)
+            self.skeleton_coords.append([self.x, self.y])        
         else: self.draw_skeleton(self.x, self.y)
+        
     def draw_map(self):
         self.x = 0
         self.y = 0
