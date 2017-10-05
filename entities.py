@@ -1,4 +1,5 @@
 from tkinter import *
+from random import randint
 
 class Entity():
     
@@ -6,7 +7,8 @@ class Entity():
         self.canvas = canvas
         self.x = 0
         self.y = 0
-        self.hp = 100
+        self.level = 1
+        self.hp = 20 + 3 * randint(1, 6)
         self.sp = 20
         self.dp = 20
         self.image = ""

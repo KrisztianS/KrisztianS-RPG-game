@@ -6,7 +6,7 @@ root = Tk()
 class Game():
 
     def __init__(self):
-        self.canvas = Canvas(root, width='720', height='720')
+        self.canvas = Canvas(root, width='720', height='745')
         self.floor_tile = PhotoImage(file= "floor_tile.png")
         self.wall_tile = PhotoImage(file= "wall_tile.png")
         self.hero_images = {"Up": PhotoImage(file= "hero-up.png"),
@@ -36,6 +36,7 @@ class Game():
         self.draw_skeleton(self.x, self.y)
         self.draw_skeleton(self.x, self.y)
         self.draw_boss(self.x, self.y)
+        self.draw_HUD()
         self.canvas.pack()
 
         root.bind("<KeyPress>", self.on_key_press)
@@ -94,5 +95,8 @@ class Game():
                     self.canvas.create_image(self.x, self.y, anchor=NW, image=self.floor_tile)
                 self.x += 72
             self.y += 72
+
+    def draw_HUD(self):
+        self.canvas.create_text(10, 742, anchor=SW, text="Hero (Level" + str(self.myhero.level) + ")  HP: " + str(self.myhero.hp) + "  |  DP: " + str(self.myhero.dp) + "  |  SP: " + str(self.myhero.sp))
 
 mymap = Game()
